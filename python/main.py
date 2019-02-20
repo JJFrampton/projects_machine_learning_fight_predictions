@@ -16,7 +16,10 @@ fights_n = fights.shape[0]
 fighters_n = fighters.shape[0]
 
 stopped_in_round_one = fights[fights["round"] < 2].shape[0]
-print('stopped in round one : %s' %(stopped_in_round_one))
+percent = (stopped_in_round_one / fights_n) * 100
+percent = int(percent)
+print('%s%% of fights were stopped in round one' %(percent))
+print('(%s of %s fights)' %(stopped_in_round_one, fights_n))
 
 # print(fighters.head)
 # print(fights.head)
@@ -35,11 +38,15 @@ def one_hot(column):
     result = pd.get_dummies(column,prefix=[labels])
     return result
 
-def column_stats(column):
+def col_stats(column):
     n = column.shape[0]
     cardinality = column.unique().shape[0]
     cardinality_percent = cardinality / n
     print("cardinality : %s" %(cardinality))
     print("cardinality percent : %s" %(cardinality_percent))
+
+def matrix_stats(matrix):
+    rows = column.shape[0]
+    rows = column.shape[1]
 
 binary_classes = one_hot(fighters['class'])
