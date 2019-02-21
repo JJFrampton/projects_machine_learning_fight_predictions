@@ -33,6 +33,10 @@ associations = fighters['association'].unique().shape[0]
 classes = fighters['class'].unique().shape[0]
 locality = fighters['locality'].unique().shape[0]
 
+print(fighters.describe())
+print("value count per col (non null)\n")
+print(fighters.count())
+
 def one_hot(column):
     labels = column[1:1].name
     result = pd.get_dummies(column,prefix=[labels])
@@ -45,8 +49,20 @@ def col_stats(column):
     print("cardinality : %s" %(cardinality))
     print("cardinality percent : %s" %(cardinality_percent))
 
-def matrix_stats(matrix):
-    rows = column.shape[0]
-    rows = column.shape[1]
+# def matrix_stats(matrix):
+#     rows = matrix.shape[0]
+#     cols = matrix.shape[1]
+#     result = pd.DataFrame(matrix.columns)
+#     for i in cols:
+#         result
+#     matrix[:,0]
 
 binary_classes = one_hot(fighters['class'])
+
+# creating a sub matrix of main matrix
+# fighters.iloc[[0,1],[0,1]]
+
+# create frame of uniqe values
+# x = pd.Series()
+# for fight in fighters.columns:
+    # x.append(pd.Series(fighters[fight].unique().shape[0]))
