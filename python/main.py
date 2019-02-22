@@ -37,17 +37,6 @@ print(fighters.describe())
 print("value count per col (non null)\n")
 print(fighters.count())
 
-def one_hot(column):
-    labels = column[1:1].name
-    result = pd.get_dummies(column,prefix=[labels])
-    return result
-
-def col_stats(column):
-    n = column.shape[0]
-    cardinality = column.unique().shape[0]
-    cardinality_percent = cardinality / n
-    print("cardinality : %s" %(cardinality))
-    print("cardinality percent : %s" %(cardinality_percent))
 
 # def matrix_stats(matrix):
 #     rows = matrix.shape[0]
@@ -57,7 +46,6 @@ def col_stats(column):
 #         result
 #     matrix[:,0]
 
-binary_classes = one_hot(fighters['class'])
 
 # creating a sub matrix of main matrix
 # fighters.iloc[[0,1],[0,1]]
