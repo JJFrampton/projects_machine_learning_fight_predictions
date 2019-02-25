@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pandas as pd
 
-def matrix_stats(m):
+def cardinality(m):
     result = {}
     for col in m.columns:
         result[col] = {}
