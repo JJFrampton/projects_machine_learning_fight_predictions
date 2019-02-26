@@ -10,3 +10,9 @@
 ## encoding for categories
 
 ## join fighters with fights
+
+
+# Other Projects
+  - weather prediction (rain, snow fall)
+  - car accidents
+  - a combination of these two after checking for causation and or correlation

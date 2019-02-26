@@ -121,6 +121,10 @@ full_fights = full_fights.merge(fighters, left_on='f2fid', right_on='fid')
 # parse dates
 full_fights['event_date'] = pd.to_datetime(full_fights['event_date'])
 
-# get ages
+# get ages (in days)
 full_fights['f1_age'] = full_fights['event_date'] - full_fights['birth_date_x']
 full_fights['f2_age'] = full_fights['event_date'] - full_fights['birth_date_y']
+
+# testing - no diff in age avg for win / loss
+full_fights['f1_age'].describe()
+full_fights['f2_age'].describe()
