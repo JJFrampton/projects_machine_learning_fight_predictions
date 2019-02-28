@@ -128,3 +128,21 @@ full_fights['f2_age'] = full_fights['event_date'] - full_fights['birth_date_y']
 # testing - no diff in age avg for win / loss
 full_fights['f1_age'].describe()
 full_fights['f2_age'].describe()
+
+# get averages for height, weight, and age by class
+fighters.groupby('class').describe()
+
+# get ages for comparisons
+full_fights['f1_age'] = full_fights['f1_age'].dt.days / 365
+full_fights['f2_age'] = full_fights['f2_age'].dt.days / 365
+# full_fights['f1_age'] = full_fights['f1_age'].astype(int) # need to remove nulls first
+# compare
+g1 = full_fights[full_fights['f1_age'] < 20].shape[0]
+g2 = full_fights[(full_fights['f1_age'] >= 20) & (full_fights['f1_age'] < 30)].shape[0]
+g3 = full_fights[(full_fights['f1_age'] >= 30) & (full_fights['f1_age'] < 40)].shape[0]
+g4 = full_fights[full_fights['f1_age'] >= 40].shape[0]
+print("\n")
+print("wins under 20 years old %s" %(g1))
+print("wins between 20 and 30 years old %s" %(g2))
+print("wins between 30 and 40 years old %s" %(g3))
+print("wins over 40 years old %s" %(g4))
