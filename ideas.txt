@@ -2,3 +2,14 @@
 
 try to find factors that contribute to fights ending in the first round
   - location, fighting styles, etc
+
+## pulling data from wiki
+import pandas as ps
+jones = pd.read_html('https://en.wikipedia.org/wiki/Jon_Jones')
+print(jones[0])
+print(jones[1])
+print(jones[2])
+
+could use something like
+https://en.wikipedia.org/wiki/List_of_current_UFC_fighters
+to get a list of fighters to loop through
