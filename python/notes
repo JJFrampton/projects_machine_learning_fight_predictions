@@ -1,0 +1,23 @@
+
+## NP functions
+
+# checking median mean mode
+np.median(array2d, axis=1) # row wise
+np.mead(array2d, axis=0) # col wise
+
+# checking the distribution (use standard deviation / variance)
+values = []
+np.std(array2d, axis=1)
+
+# checking percentile
+np.percentile(array2d, 50, axis=1) # 50th percentile of rows
+
+
+# PD functions
+
+# get most frequent occuring category
+df['column'].value_counts().max()
+df['column'].value_counts().idxmax()
+
+# can expand a 1d np array to a 2d with:
+np.expand_dims(array, axis=1)

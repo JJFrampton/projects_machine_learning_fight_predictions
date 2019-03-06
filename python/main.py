@@ -135,14 +135,70 @@ fighters.groupby('class').describe()
 # get ages for comparisons
 full_fights['f1_age'] = full_fights['f1_age'].dt.days / 365
 full_fights['f2_age'] = full_fights['f2_age'].dt.days / 365
+
+# remove na in ages
+full_fights['f1_age'] = full_fights['f1_age'].fillna(0)
+full_fights['f2_age'] = full_fights['f2_age'].fillna(0)
+
+# convert age in years to int
+full_fights['f1_age'] = full_fights['f1_age'].astype(int)
+full_fights['f2_age'] = full_fights['f2_age'].astype(int)
+
 # full_fights['f1_age'] = full_fights['f1_age'].astype(int) # need to remove nulls first
 # compare
-g1 = full_fights[full_fights['f1_age'] < 20].shape[0]
-g2 = full_fights[(full_fights['f1_age'] >= 20) & (full_fights['f1_age'] < 30)].shape[0]
-g3 = full_fights[(full_fights['f1_age'] >= 30) & (full_fights['f1_age'] < 40)].shape[0]
-g4 = full_fights[full_fights['f1_age'] >= 40].shape[0]
-print("\n")
-print("wins under 20 years old %s" %(g1))
-print("wins between 20 and 30 years old %s" %(g2))
-print("wins between 30 and 40 years old %s" %(g3))
-print("wins over 40 years old %s" %(g4))
+# g1 = full_fights[full_fights['f1_age'] < 20].shape[0]
+# g2 = full_fights[(full_fights['f1_age'] >= 20) & (full_fights['f1_age'] < 25)].shape[0]
+# g3 = full_fights[(full_fights['f1_age'] >= 25) & (full_fights['f1_age'] < 30)].shape[0]
+# g4 = full_fights[(full_fights['f1_age'] >= 30) & (full_fights['f1_age'] < 35)].shape[0]
+# g5 = full_fights[(full_fights['f1_age'] >= 35) & (full_fights['f1_age'] < 40)].shape[0]
+# g6 = full_fights[full_fights['f1_age'] >= 40].shape[0]
+# print("\n")
+# print("wins under 20 years old : %s" %(g1))
+# print("wins between 20 and 25 years old : %s" %(g2))
+# print("wins between 25 and 30 years old : %s" %(g3))
+# print("wins between 30 and 35 years old : %s" %(g4))
+# print("wins between 35 and 40 years old : %s" %(g5))
+# print("wins over 40 years old : %s" %(g6))
+
+# get all ages
+ages = full_fights['f1_age']
+ages = np.append(ages, full_fights['f2_age'])
+ages = ages[~np.isnan(ages)]
+ages = ages.astype(int)
+ages = np.unique(ages)
+ages.sort()
+
+print('Wins as a function of age:\n')
+all_wins = np.array([])
+for i in ages:
+    wins = full_fights[full_fights['f1_age'] == i].shape[0]
+    print("age %s : wins %s" %(i, wins))
+    all_wins = np.append(all_wins, wins)
+
+print(np.std(all_wins))
+print(np.median(all_wins))
+print(np.mean(all_wins))
+
+# find all nas
+full_fights.isna().sum()
+
+# fill columns with most frequent value
+full_fights['method_d'] = full_fights['method_d'].fillna(full_fights['method_d'].value_counts().idxmax())
+
+# fill empty b days with b day of opponent (???)
+full_fights['birth_date_x'].fillna(full_fights['birth_date_y'],inplace=True)
+full_fights['birth_date_y'].fillna(full_fights['birth_date_x'],inplace=True)
+
+
+# Can use pivot table to put identifying information into the index instead of
+# leaving it as a value (may not really be needed in production, but may help in
+# trouble shooting.
+# this can also give you sub categories ie
+# country2 | critical  | value
+#          | high      | value
+#          | low       | value
+# country1 | critical  | value
+#          | high      | value
+#          | low       | value
+
+# a = pd.pivot_table(a, index=['identifying', 'values'], values = ['actual values you will calculate on'])
