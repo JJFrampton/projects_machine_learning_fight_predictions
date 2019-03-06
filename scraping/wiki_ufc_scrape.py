@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import csv
 import urllib
 from bs4 import BeautifulSoup
 
@@ -19,30 +20,44 @@ rows = tables[1].find_all('tr')
 # - get geo location
 # - get altitude
 
-links = {}
+links = []
 
 for row in rows:
     if row.find('td'):
         cells = row.find_all('td')
         # for a in cells[1].find('a', href=True)
-        links[cells[0].text.strip()] = base_url + cells[1].find('a', href=True)['href']
+        links.append(base_url + cells[1].find('a', href=True)['href'])
 
-soup = get_soup(links['201'])
-tables = soup.find_all('table')
-results = tables[2]
-records = results.find_all('tr')
-records = records[2:]
-elements = records[1].find_all('td')
-row_test = []
-for i in range(len(elements)):
-    row_test.append(elements[i].text.strip())
-    if elements[i].find('a', href=True):
-        a = elements[i].find('a', href=True)['href']
-        a = base_url + a
-        row_test.append(a)
-    # elements[i].text.
+# write to csv file
+with open('fight_data.csv', 'w') as fight_data:
+    writer = csv.writer(fight_data)
+    data = []
+    fighters = []
+    # link = links[0]
+    # if link:
+    for link in links:
+        soup = get_soup(link)
+        records = soup.find_all('table')[2].find_all('tr')[2:]
 
-# for link in links:
-#     soup = get_soup(links[link])
-#     soup.find_all('table')
+        for record in records:
+            elements = record.find_all('td')
+            row_test = []
+            row_test.append(link)
+            for i in range(len(elements)):
+                row_test.append(elements[i].text.strip())
+                if elements[i].find('a', href=True):
+                    a = base_url + elements[i].find('a', href=True)['href']
+                    row_test.append(a)
+            data.append(row_test)
+            writer.writerow(row_test)
 
+number_of_elements_per_row = []
+for i in range(len(data)):
+    if len(data[i]) not in total:
+	number_of_elements_per_row.append(len(data[i]))
+number_of_elements_per_row.sort()
+print(number_of_elements_per_row)
+
+# need to remove all rows with only the url
+# ie: some headings like "weight class", "method" or "prelims", "main card" etc
+# all of these rows only have the event url
