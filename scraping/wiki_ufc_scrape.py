@@ -46,6 +46,8 @@ with open('fight_data.csv', 'w') as fight_data:
             for i in range(len(elements)):
                 row_test.append(elements[i].text.strip())
                 if elements[i].find('a', href=True):
+                    # NEED TO MOVE FIGHTER URL TO THE END OF ARRAY
+                    # some fighters dont have a url, causes problems
                     a = base_url + elements[i].find('a', href=True)['href']
                     row_test.append(a)
                     if i == 3 or i == 6:
